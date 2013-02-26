@@ -17,6 +17,10 @@ import org.newdawn.slick.util.ResourceLoader;
 import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.menus.SplashScreen;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
 	private static int STARTING_HEIGHT = 512;

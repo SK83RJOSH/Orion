@@ -8,6 +8,10 @@ import org.newdawn.slick.SlickException;
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class SplashScreen extends Menu {
 	private int timeout = 120;
 	

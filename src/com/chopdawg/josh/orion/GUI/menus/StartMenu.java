@@ -4,10 +4,14 @@ import org.newdawn.slick.Color;
 
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
-import com.chopdawg.josh.orion.GUI.TileComponent;
 import com.chopdawg.josh.orion.GUI.components.ButtonComponent;
 import com.chopdawg.josh.orion.GUI.components.ImageComponent;
+import com.chopdawg.josh.orion.GUI.components.TileComponent;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class StartMenu extends Menu {
 	public StartMenu() {
 		setColor(new Color(0.65f, 0.65f, 0.65f));

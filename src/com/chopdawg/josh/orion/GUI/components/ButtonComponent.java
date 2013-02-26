@@ -11,7 +11,10 @@ import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Component;
 import com.chopdawg.josh.orion.GUI.IClickable;
 
-
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class ButtonComponent extends Component implements IClickable {
 	private String text;
 	private boolean isPressed;

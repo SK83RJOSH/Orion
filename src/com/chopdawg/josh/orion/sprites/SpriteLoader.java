@@ -3,6 +3,10 @@ package com.chopdawg.josh.orion.sprites;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public abstract class SpriteLoader {
 	public static Image loadImage(String res) {
 		try {

@@ -7,6 +7,10 @@ import org.newdawn.slick.SlickException;
 
 import com.chopdawg.josh.orion.GUI.Component;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class ImageComponent extends Component {
 	private Image image;
 	

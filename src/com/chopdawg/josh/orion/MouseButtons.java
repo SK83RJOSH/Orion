@@ -1,5 +1,9 @@
 package com.chopdawg.josh.orion;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class MouseButtons {
     private boolean[] currentState = new boolean[4];
     private boolean[] nextState = new boolean[4];

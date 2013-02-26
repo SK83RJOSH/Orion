@@ -7,7 +7,10 @@ import org.newdawn.slick.GameContainer;
 
 import com.chopdawg.josh.orion.Board;
 
-
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public abstract class Component implements IRenderable {
 	private Vector3f pos;
 	private Dimension dim;

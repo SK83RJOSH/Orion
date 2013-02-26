@@ -9,7 +9,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.chopdawg.josh.orion.Board;
 
-
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public abstract class Menu implements IRenderable  {
 	protected ArrayList<Component> components = new ArrayList<Component>();
 	private Color color = new Color(255, 0, 255);
