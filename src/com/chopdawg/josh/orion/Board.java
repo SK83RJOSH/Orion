@@ -36,7 +36,7 @@ public class Board extends BasicGame {
     public static void main(String[] args) throws Exception {
         game = new ScalableGame(new Board("Project Orion"), STARTING_WIDTH, STARTING_HEIGHT) {
         	protected void renderOverlay(GameContainer container, Graphics g) {        		
-        		if(menuStack.isEmpty() == false)
+        		if(!menuStack.isEmpty())
         			menuStack.peek().render(container, g); //Drawing Menus here, no real reason to
         	}
         };
@@ -69,7 +69,7 @@ public class Board extends BasicGame {
 			}
 		}
 		
-		if(menuStack.isEmpty() == false)
+		if(!menuStack.isEmpty())
 			menuStack.peek().update(container);
 		
         mouseButtons.update();
