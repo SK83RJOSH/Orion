@@ -12,9 +12,10 @@ import com.chopdawg.josh.orion.Board;
 
 public abstract class Menu implements IRenderable  {
 	protected ArrayList<Component> components = new ArrayList<Component>();
+	private Color color = new Color(255, 0, 255);
 	
 	public void render(GameContainer container, Graphics g) {
-		g.setColor(new Color(255, 0, 255));
+		g.setColor(getColor());
 		g.fill(new Rectangle(0, 0, Board.getWidth(), Board.getHeight()));
 		
 		for(Component c : components)
@@ -32,5 +33,13 @@ public abstract class Menu implements IRenderable  {
 	
 	public void destroy() {
 		components.clear();
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 }
