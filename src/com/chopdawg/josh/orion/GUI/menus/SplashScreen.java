@@ -1,5 +1,10 @@
 package com.chopdawg.josh.orion.GUI.menus;
 
+import java.util.ArrayList;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,26 +18,45 @@ import com.chopdawg.josh.orion.GUI.Menu;
  * @author SK83RJOSH
  */
 public class SplashScreen extends Menu {
-	private int timeout = 120;
+	private ArrayList<Image> images = new ArrayList<Image>();
+	private int current, timeout = 150;
+	private boolean skipped;
 	
-	public void render(GameContainer container, Graphics g) {
+	public SplashScreen() {
 		try {
-			g.pushTransform();
-				Image splash = new Image("res/splash.png");
-				g.scale((Board.getWidth() * 1f) / splash.getWidth(), (Board.getHeight() * 1f) / splash.getHeight());
-				g.drawImage(splash, 0, 0);
-			g.popTransform();
+			images.add(new Image("res/splash.png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void render(GameContainer container, Graphics g) {
+		float col = 1f;
+		
+		if(timeout >= 120 && current == 0)
+			col -= (0.03333333333f * (31 - (150 - timeout)));
+		else if(timeout <= 30 && current == images.size() - 1)
+			col -= 0.03333333333f * (31 - timeout);
+		
+		g.pushTransform();
+			g.scale((Board.getWidth() * 1f) / images.get(current).getWidth(), (Board.getHeight() * 1f) / images.get(current).getHeight());
+			g.drawImage(images.get(current), 0, 0, new Color(col, col, col));
+		g.popTransform();
+	}
+	
 	public void update(GameContainer container) {
 		timeout--;
 		
-		if(timeout == 0) {
+		if(timeout == 0 && current == images.size() - 1) {
 			Board.menuStack.pop();
 			Board.menuStack.add(new StartMenu());
+		} else if(timeout == 0) {
+			timeout = 150;
+			current++;
+		} else if((Mouse.isButtonDown(0) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) && !skipped) {
+			skipped = true;
+			timeout = 30;
+			current = images.size() - 1;
 		}
 	}
 }
