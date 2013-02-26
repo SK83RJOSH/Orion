@@ -4,7 +4,7 @@ Orion
 Port of Orion to Slick2D.
 
 #Configuration
-This Repo is intended for use in Eclipse. To properly set up this Repo, clone this it into an existing Eclipse Project, or start a new one.
+This Repo is made with Maven, and you can do a clean install to compile. 
 
 #Code Standards
 Please keep to Standards exhibited in the files. If in doubt, peek at the Board, and Component classes.
