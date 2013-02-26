@@ -35,16 +35,13 @@ public class Board extends BasicGame {
 	
     public static void main(String[] args) throws Exception {
         game = new ScalableGame(new Board("Project Orion"), STARTING_WIDTH, STARTING_HEIGHT) {
-        	protected void renderOverlay(GameContainer container, Graphics g) {
+        	protected void renderOverlay(GameContainer container, Graphics g) {        		
         		if(menuStack.isEmpty() == false)
         			menuStack.peek().render(container, g); //Drawing Menus here, no real reason to
         	}
         };
         
         AppGameContainer container = new AppGameContainer(game);
-        container.setShowFPS(false);
-        container.setFullscreen(true);
-        container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
         container.start();
     }
 
@@ -60,7 +57,7 @@ public class Board extends BasicGame {
     		container.setDefaultFont(new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(16f), false));
     	} catch (Exception e) {
     		e.printStackTrace();
-    	}
+    	}    	
 	}
 
 	public void update(GameContainer container, int delta) throws SlickException {
