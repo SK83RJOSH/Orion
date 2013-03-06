@@ -16,6 +16,8 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.menus.SplashScreen;
+import com.chopdawg.josh.orion.GUI.menus.StartMenu;
+import com.chopdawg.josh.orion.level.Level;
 
 /**
  * 
@@ -25,9 +27,10 @@ public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
 	private static int STARTING_HEIGHT = 512;
 	private static ScalableGame game;
-
+	
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
+	public static Level level;
 	
 	public Board(String title) {
 		super(title);
@@ -37,16 +40,19 @@ public class Board extends BasicGame {
         game = new ScalableGame(new Board("Project Orion"), STARTING_WIDTH, STARTING_HEIGHT) {
         	protected void renderOverlay(GameContainer container, Graphics g) {        		
         		if(!menuStack.isEmpty())
-        			menuStack.peek().render(container, g); //Drawing Menus here, no real reason to
+        			menuStack.peek().render(container, g);
         	}
         };
         
         AppGameContainer container = new AppGameContainer(game);
+        container.setMultiSample(0);
+        container.setVSync(true);
         container.start();
     }
 
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		//menuStack.peek().render(container, g);
+        if(level != null)
+        	level.render(container, g);
 	}
 
 	public void init(GameContainer container) throws SlickException {
@@ -73,6 +79,9 @@ public class Board extends BasicGame {
 			menuStack.peek().update(container);
 		
         mouseButtons.update();
+	
+        if(level != null)
+        	level.update(container);
 	}
 	
 	public static int getWidth() {
@@ -81,5 +90,16 @@ public class Board extends BasicGame {
 	
 	public static int getHeight() {
 		return (int) (STARTING_HEIGHT * game.getScaleY());
+	}
+	
+	public static void startGame() {
+		menuStack.pop();
+		Board.level = new Level("");
+	}
+	
+	public static void exitGame() {
+		menuStack.pop();
+		Board.level = null;
+		menuStack.add(new StartMenu());
 	}
 }

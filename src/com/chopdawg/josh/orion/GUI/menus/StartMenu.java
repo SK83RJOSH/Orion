@@ -25,7 +25,7 @@ public class StartMenu extends Menu {
 		//Getting all JQuery up in here. But not quite. -Insert Wit-
 		addComponent(new ButtonComponent("Start Game", -1, 205) {
 						public void onClick() {
-							System.out.println("Start Game!");
+							Board.startGame();
 						}
 					});
 		
