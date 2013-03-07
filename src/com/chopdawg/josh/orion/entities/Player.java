@@ -15,18 +15,18 @@ public class Player extends Entity {
 		super.update(container);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			setVel(getVelX(), -1, getVelZ());
+			setVel(getVelX(), -2, getVelZ());
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			setVel(getVelX(), 1, getVelZ());
+			setVel(getVelX(), 2, getVelZ());
  		} else {
 			setVel(getVelX(), 0, getVelZ());
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			setVel(-1, getVelY(), getVelZ());
+			setVel(-2, getVelY(), getVelZ());
 			setAnimation(1);
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			setVel(1, getVelY(), getVelZ());
+			setVel(2, getVelY(), getVelZ());
 			setAnimation(0);
 		} else {
 			setVel(0, getVelY(), getVelZ());

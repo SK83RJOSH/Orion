@@ -12,6 +12,7 @@ import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.menus.PauseMenu;
 import com.chopdawg.josh.orion.entities.Entity;
 import com.chopdawg.josh.orion.entities.Player;
+import com.chopdawg.josh.orion.sprites.GameSprites;
 import com.chopdawg.josh.orion.utils.RenderedList;
 
 public class Level {
@@ -19,16 +20,45 @@ public class Level {
 	public double progress;
 	public int width, height;
 	public String level;
+	public Player player;
 	RenderedList<Entity> entities = new RenderedList<Entity>();
 	
 	public Level(String level) {
 		this.level = level;
-		entities.add(new Player(250, 250));
+		player = new Player(250, 250); 
+		entities.add(player);
 	}
 	
+	float nextZoom = 2f;
+	float currentZoom = 2f;
+	
 	public void render(GameContainer container, Graphics g) {
+		if(player != null) {
+			nextZoom = 2f - (Math.abs(player.getVelX()) / 5f);
+			nextZoom = (nextZoom < 1f ? 1f : nextZoom);
+			
+			if(currentZoom != nextZoom) {
+				if(currentZoom > nextZoom)
+					currentZoom -= 0.01f;
+				else
+					currentZoom += 0.01f;
+			}
+			
+			g.pushTransform();
+				g.scale(currentZoom, currentZoom);
+				g.translate(-player.getX() + (((Board.getWidth() / 2) - (16 * currentZoom)) / currentZoom), -player.getY() + (((Board.getHeight() / 2) - (16 * currentZoom)) / currentZoom));
+		}
+			
 		for(Entity e : entities)
 			e.render(container, g);
+		
+		for(int x = -15; x < 25; x++)
+			for(int y = 0; y < 5; y++)
+				g.drawImage(GameSprites.TILESET.getSubImage(0, 0), 106 + (x * 32), 282 + (y * 32));
+		
+		if(player != null) {
+			g.popTransform();
+		}
 	}
 	
 	private boolean toggled;
