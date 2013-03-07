@@ -32,28 +32,35 @@ public class Level {
 	float nextZoom = 2f;
 	float currentZoom = 2f;
 	
-	public void render(GameContainer container, Graphics g) {
+	public void render(GameContainer container, Graphics g) {		
 		if(player != null) {
-			nextZoom = 2f - (Math.abs(player.getVelX()) / 5f);
+			nextZoom = 2f - ((Math.abs(player.getVelX()) + Math.abs(player.getVelY())));
 			nextZoom = (nextZoom < 1f ? 1f : nextZoom);
+			nextZoom = Math.round(nextZoom * 100f) / 100f;  
+			
+			currentZoom = Math.round(currentZoom * 100f) / 100f;
 			
 			if(currentZoom != nextZoom) {
 				if(currentZoom > nextZoom)
-					currentZoom -= 0.01f;
+					currentZoom -= 0.02f;
 				else
-					currentZoom += 0.01f;
+					currentZoom += 0.03f;				
 			}
 			
 			g.pushTransform();
 				g.scale(currentZoom, currentZoom);
 				g.translate(-player.getX() + (((Board.getWidth() / 2) - (16 * currentZoom)) / currentZoom), -player.getY() + (((Board.getHeight() / 2) - (16 * currentZoom)) / currentZoom));
 		}
+		
+		for(int x = -15; x < 25; x++)
+			for(int y = 0; y < 8; y++)
+				g.drawImage(GameSprites.TILESET.getSubImage(0, 4), 106 + (x * 32), 26 + (y * 32));
 			
 		for(Entity e : entities)
 			e.render(container, g);
 		
 		for(int x = -15; x < 25; x++)
-			for(int y = 0; y < 5; y++)
+			for(int y = 0; y < 8; y++)
 				g.drawImage(GameSprites.TILESET.getSubImage(0, 0), 106 + (x * 32), 282 + (y * 32));
 		
 		if(player != null) {
