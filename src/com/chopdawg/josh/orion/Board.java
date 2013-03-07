@@ -94,7 +94,7 @@ public class Board extends BasicGame {
 	
 	public static void startGame() {
 		menuStack.pop();
-		Board.level = new Level("");
+		Board.level = new Level("res/maps/test.xml");
 	}
 	
 	public static void exitGame() {

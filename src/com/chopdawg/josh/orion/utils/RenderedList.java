@@ -4,15 +4,18 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class RenderedList<Entity> extends AbstractList<Entity> {
-    private ArrayList<Entity> internalList = new ArrayList<Entity>();
+import com.chopdawg.josh.orion.bb.IBounding;
 
-    public void add(int position, Entity e) {
+@SuppressWarnings("hiding")
+public class RenderedList<IBounding> extends AbstractList<IBounding> {
+    private ArrayList<IBounding> internalList = new ArrayList<IBounding>();
+
+    public void add(int position, IBounding e) {
         internalList.add(e);
         sort();
     }
 
-    public Entity get(int i) {
+    public IBounding get(int i) {
         return internalList.get(i);
     }
 
@@ -20,7 +23,7 @@ public class RenderedList<Entity> extends AbstractList<Entity> {
         return internalList.size();
     }
     
-    public void drop(Entity e) {
+    public void drop(IBounding e) {
     	if(internalList.contains(e))
     		internalList.remove(e);
     }

@@ -3,6 +3,7 @@ package com.chopdawg.josh.orion.level;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
+import nu.xom.Node;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -12,21 +13,24 @@ import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.menus.PauseMenu;
 import com.chopdawg.josh.orion.entities.Entity;
 import com.chopdawg.josh.orion.entities.Player;
-import com.chopdawg.josh.orion.sprites.GameSprites;
+import com.chopdawg.josh.orion.tiles.Background;
+import com.chopdawg.josh.orion.tiles.Solid;
+import com.chopdawg.josh.orion.tiles.Tile;
 import com.chopdawg.josh.orion.utils.RenderedList;
 
 public class Level {
 	public boolean paused, loading, editing;
 	public double progress;
-	public int width, height;
+	private int width, height;
 	public String level;
 	public Player player;
+	private int entitiesTotal, entitiesProcessed, tilesTotal, tilesProcessed;
 	RenderedList<Entity> entities = new RenderedList<Entity>();
-	
+	Tile[] tiles;
+
 	public Level(String level) {
 		this.level = level;
-		player = new Player(250, 250); 
-		entities.add(player);
+		load(level);
 	}
 	
 	float nextZoom = 2f;
@@ -51,17 +55,14 @@ public class Level {
 				g.scale(currentZoom, currentZoom);
 				g.translate(-player.getX() + (((Board.getWidth() / 2) - (16 * currentZoom)) / currentZoom), -player.getY() + (((Board.getHeight() / 2) - (16 * currentZoom)) / currentZoom));
 		}
-		
-		for(int x = -15; x < 25; x++)
-			for(int y = 0; y < 8; y++)
-				g.drawImage(GameSprites.TILESET.getSubImage(0, 4), 106 + (x * 32), 26 + (y * 32));
 			
+		if(tiles != null)
+			for(Tile t : tiles)
+				if(t != null)
+					t.render(container, g);
+		
 		for(Entity e : entities)
 			e.render(container, g);
-		
-		for(int x = -15; x < 25; x++)
-			for(int y = 0; y < 8; y++)
-				g.drawImage(GameSprites.TILESET.getSubImage(0, 0), 106 + (x * 32), 282 + (y * 32));
 		
 		if(player != null) {
 			g.popTransform();
@@ -85,22 +86,20 @@ public class Level {
 	}
 	
 	public void load(String level) {
-	    try {
-	    	//int ents, entsProcessed, sets, setsProcessed, phys, physProcessed;
-
+	    try {	    	
 	    	Builder parser = new Builder();
-			Document d = parser.build(Board.class.getResourceAsStream(level));
+			Document d = parser.build(level);
 			Element e = d.getRootElement();
 				
 			width = parseInt(e, "width");
 			height = parseInt(e, "height");
-			//ents = parseInt(e, "ents");
-			//sets = parseInt(e, "sets");
-			//phys = parseInt(e, "phys");
-			
-			//tiles = new Entity[width * height];
+			entitiesTotal = parseInt(e, "entities");
+			tilesTotal = parseInt(e, "tiles");
+						
+			tiles = new Tile[getWidth() * getHeight()];
 			
 			parseElements(e);
+			ready();
 	    } catch (Exception ex) {
 	    	ex.printStackTrace();
 	    }
@@ -108,37 +107,49 @@ public class Level {
 	
 	private void parseElements(Element element) {
 		switch(element.getLocalName()) {
-			case "block":
+			case "tile":				
 				int x = parseInt(element, "x");
 				int y = parseInt(element, "y");
+				int z = parseInt(element, "z");
 				int width = parseInt(element, "width");
 				int height = parseInt(element, "height");
-				//Rectangle ent = null;
 				
-				if(width > 1 && height > 1) {
+				if(width > 1 || height > 1) {
 					for(int entX = x; entX < x + width; entX++) {
 						for(int entY = y; entY < y + height; entY++) {
-							//ent = new Rectangle(new Vector3f(16f * entX, 16f * entY, 0f), 16f , 16f);
-							
-//							if(element.getAttribute("type").getValue().equals("test")) {							
-//								ent.offset = 0;	
-//							}
-//							else
-//								ent.offset = 2;
-//
-//							ent.fixed = true;
-//							tiles[entX + entY * this.width()] = ent;
+							tiles[entX + entY * getWidth()] =  (element.getAttribute("type").getValue().equals("test") ? new Background(entX, entY, z) : new Solid(entX, entY, z));
 						}
 					}
 				}
 				else {
-					//ent = new Rectangle(new Vector3f(16f * parseInt(element, "x"), 16f * parseInt(element, "y"), 0f), 16f, 16f);
-				
-//					ent.kinematic = parseBoolean(element, "kinematic");
-//					ent.fixed = true;
-//					tiles[x + y * width] = ent;
+					tiles[x * y * this.width] = new Background(x, y, z);
 				}
-			break;
+				
+				tilesProcessed++;
+				break;
+			case "entity":				
+				switch(element.getAttribute("type").getValue()) {
+					case "player_spawn":
+						if(player == null) {
+							x = parseInt(element, "x") * Tile.TILE_WIDTH;
+							y = parseInt(element, "y") * Tile.TILE_HEIGHT;
+							player = new Player(x, y); 
+							entities.add(player);
+						} else {
+							System.out.println("There was more than one player present on the Map!");
+						}
+						break;
+				}
+				
+				entitiesProcessed++;
+				break;
+		}
+		
+		for (int i = 0; i < element.getChildCount(); i++) {
+			Node node = element.getChild(i);
+			if (node instanceof Element) {
+				parseElements((Element)node);
+			}
 		}
 	}
 		
@@ -149,7 +160,7 @@ public class Level {
 			e.printStackTrace();
 		}
 		
-		return 0x00;
+		return 0;
 	}
 	
 //	private boolean parseBoolean(Element element, String attribute) {
@@ -172,7 +183,19 @@ public class Level {
 			Board.menuStack.pop();
 	}
 	
+	public double getProgress() {
+		return (entitiesProcessed + tilesProcessed) / (entitiesTotal + tilesTotal);
+	}
+	
 	public void ready() {
-		
+		//Overridden
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 }

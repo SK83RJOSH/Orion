@@ -7,13 +7,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
-public abstract class Entity {
+import com.chopdawg.josh.orion.bb.IBounding;
+
+public abstract class Entity implements IBounding {
 	private Vector3f position = new Vector3f(), velocity = new Vector3f();
 	private Dimension dimensions = new Dimension();
 	private Image sprite;
 	private SpriteSheet spriteSheet;
 	private int animation, frame, tick, rotation;
-	private boolean scaled, animated, paused;
+	private boolean scaled, animated, paused, solid;
 
 	public void render(GameContainer container, Graphics g) {
 		g.pushTransform();
@@ -41,6 +43,14 @@ public abstract class Entity {
 		set(getX() + getVelX(), getY() + getVelY(), getZ() + getVelZ());
 	}
 
+	public void makeSolid() {
+		solid = true;
+	}
+	
+	public boolean isSolid() {
+		return solid;
+	}
+	
 	public void setSize(int width, int height) {
 		dimensions.setSize(width, height);
 	}
@@ -134,17 +144,10 @@ public abstract class Entity {
 		return rotation;
 	}
 	
-	public boolean collides(Entity e) {
-		if(e.getX() >= getX() && e.getY() >= getY() && e.getX() + e.getWidth() <= getX() + getWidth() && e.getY() + e.getHeight() <= getY() + getHeight() && e.getZ() == getZ())
+	public boolean collides(IBounding bb) {
+		if(bb.getX() >= getX() && bb.getY() >= getY() && bb.getX() + bb.getWidth() <= getX() + getWidth() && bb.getY() + bb.getHeight() <= getY() + getHeight() && bb.getZ() == getZ() && bb.isSolid() && isSolid())
 			return true;
 		
-		return false;
-	}
-	
-	public boolean collidesNextStep(Entity e) {
-		if(e.getX() + e.getVelX() >= getX() + getVelX() && e.getY() + e.getVelY() >= getY() + getVelY() && e.getX() + e.getWidth() + e.getVelX() <= getX() + getWidth() + getVelX() && e.getY() + e.getHeight() + e.getVelY() <= getY() + getHeight() + getVelY() && e.getZ() + e.getVelZ() == getZ() + getVelZ())
-			return true;
-
 		return false;
 	}
 }

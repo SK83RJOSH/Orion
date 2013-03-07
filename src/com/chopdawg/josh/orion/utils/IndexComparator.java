@@ -2,13 +2,13 @@ package com.chopdawg.josh.orion.utils;
 
 import java.util.Comparator;
 
-import com.chopdawg.josh.orion.entities.Entity;
+import com.chopdawg.josh.orion.bb.IBounding;
 
 public class IndexComparator implements Comparator<Object> {
 	public int compare(Object o1, Object o2) {
-		if(((Entity) o1).getZ() > ((Entity) o2).getZ())
+		if(((IBounding) o1).getZ() > ((IBounding) o2).getZ())
 			return 1;
-		else if(((Entity) o1).getZ() == ((Entity) o2).getZ())
+		else if(((IBounding) o1).getZ() == ((IBounding) o2).getZ())
 			return  0;
 		else
 			return -1;
