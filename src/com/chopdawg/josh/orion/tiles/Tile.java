@@ -10,6 +10,8 @@ import com.chopdawg.josh.orion.bb.IBounding;
 public abstract class Tile implements IBounding {
 	public final static int TILE_WIDTH = 32; 
 	public final static int TILE_HEIGHT = 32;
+	public final static String[] TILE_TYPES = new String[]{"Background", "Solid"};
+	public int TILE_TYPE = -1;
 	private Image sprite;
 	private Vector3f position = new Vector3f();
 	private boolean solid;
@@ -63,5 +65,13 @@ public abstract class Tile implements IBounding {
 			return true;
 		
 		return false;
+	}
+	
+	public int getTileType() {
+		return TILE_TYPE;
+	}
+	
+	public void setTileType(int TILE_TYPE) {
+		this.TILE_TYPE = TILE_TYPE;
 	}
 }

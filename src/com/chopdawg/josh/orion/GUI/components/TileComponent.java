@@ -26,10 +26,8 @@ public class TileComponent extends Component implements IClickable {
 		
 		image = GameSprites.TILESET.getSubImage(offsetX + frameX, offsetY + frameY);
 		
-		setWidth(image.getWidth());
-		setHeight(image.getHeight());
-		setX(x * getWidth());
-		setY(y * getHeight());
+		setSize(image.getWidth(), image.getHeight());
+		set(x * getWidth(), y * getHeight());
 		
 		if(offsetY == 4) {
 			if(RandomUtil.randomBoolean())

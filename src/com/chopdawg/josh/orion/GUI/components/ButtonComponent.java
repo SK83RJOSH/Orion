@@ -23,14 +23,12 @@ public class ButtonComponent extends Component implements IClickable {
 	public ButtonComponent(String text, int x, int y) {
 		this.text = text;
 		
-		setX(x);
-		setY(y);
+		set(x, y);
 		
 		try {
 			buttonImage = new Image("res/button.png");
 			
-			setWidth(buttonImage.getWidth());
-			setHeight(buttonImage.getHeight());
+			setSize(buttonImage.getWidth(), buttonImage.getHeight());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}	

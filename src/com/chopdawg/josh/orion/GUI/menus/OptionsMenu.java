@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.components.ButtonComponent;
+import com.chopdawg.josh.orion.GUI.components.TextInputComponent;
 import com.chopdawg.josh.orion.GUI.components.TileComponent;
 
 /**
@@ -26,5 +27,7 @@ public class OptionsMenu extends Menu {
 							Board.menuStack.add(new StartMenu());
 						}
 					});
+		
+		addComponent(new TextInputComponent("I AM ERROR", "", -1, 300));
 	}
 }

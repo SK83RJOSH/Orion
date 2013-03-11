@@ -18,10 +18,8 @@ public class ImageComponent extends Component {
 		try {
 			image = new Image(res);
 
-			setX(x);
-			setY(y);
-			setWidth(image.getWidth());
-			setHeight(image.getHeight());
+			set(x, y);
+			setSize(image.getWidth(), image.getHeight());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

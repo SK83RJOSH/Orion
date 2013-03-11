@@ -7,5 +7,6 @@ public class Solid extends Tile {
 		set(x, y, z);
 		setSprite(GameSprites.TILESET.getSubImage(0, 0));
 		makeSolid();
+		setTileType(2);
 	}
 }

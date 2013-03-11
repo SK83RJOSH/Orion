@@ -2,7 +2,7 @@ package com.chopdawg.josh.orion.GUI;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Dimension;
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 
 import com.chopdawg.josh.orion.Board;
@@ -12,13 +12,13 @@ import com.chopdawg.josh.orion.Board;
  * @author SK83RJOSH
  */
 public abstract class Component implements IRenderable {
-	private Vector3f pos;
+	private Vector2f pos;
 	private Dimension dim;
 	private boolean active;
 	
 	public Component() {
 		dim = new Dimension();
-		pos = new Vector3f();
+		pos = new Vector2f();
 	}
 	
 	public void update(GameContainer container) {
@@ -37,20 +37,9 @@ public abstract class Component implements IRenderable {
 		return pos.y;
 	}
 	
-	public float getZ() {
-		return pos.z;
-	}
-	
-	public void setX(float x) {
+	public void set(float x, float y) {
 		pos.setX(x);
-	}
-	
-	public void setY(float y) {
 		pos.setY(y);
-	}
-	
-	public void setZ(float z) {
-		pos.setZ(z);
 	}
 	
 	public int getWidth() {
@@ -61,11 +50,8 @@ public abstract class Component implements IRenderable {
 		return dim.getHeight();
 	}
 	
-	public void setWidth(int width) {
+	public void setSize(int width, int height) {
 		dim.setWidth(width);
-	}
-	
-	public void setHeight(int height) {
 		dim.setHeight(height);
 	}
 	

@@ -41,6 +41,11 @@ public abstract class Entity implements IBounding {
 		}
 		
 		set(getX() + getVelX(), getY() + getVelY(), getZ() + getVelZ());
+		
+//		if((Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) >= getX() && (Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) <= getX() + 2 * getWidth())
+//			System.out.println("ASD");
+//		else
+//			System.out.println("Mouse: " + (Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) + " & " + Mouse.getY() + " Me: " + getX() + " & " + getY());
 	}
 
 	public void makeSolid() {

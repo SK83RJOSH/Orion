@@ -32,51 +32,51 @@ public class Level {
 		this.level = level;
 		load(level);
 	}
-	
+
 	float nextZoom = 2f;
 	float currentZoom = 2f;
-	
+
 	public void render(GameContainer container, Graphics g) {		
 		if(player != null) {
 			nextZoom = 2f - ((Math.abs(player.getVelX()) + Math.abs(player.getVelY())));
 			nextZoom = (nextZoom < 1f ? 1f : nextZoom);
 			nextZoom = Math.round(nextZoom * 100f) / 100f;  
-			
+
 			currentZoom = Math.round(currentZoom * 100f) / 100f;
-			
+
 			if(currentZoom != nextZoom) {
 				if(currentZoom > nextZoom)
 					currentZoom -= 0.02f;
 				else
 					currentZoom += 0.03f;				
 			}
-			
+
 			g.pushTransform();
 				g.scale(currentZoom, currentZoom);
 				g.translate(-player.getX() + (((Board.getWidth() / 2) - (16 * currentZoom)) / currentZoom), -player.getY() + (((Board.getHeight() / 2) - (16 * currentZoom)) / currentZoom));
 		}
-			
+
 		if(tiles != null)
 			for(Tile t : tiles)
 				if(t != null)
 					t.render(container, g);
-		
+
 		for(Entity e : entities)
 			e.render(container, g);
-		
+
 		if(player != null) {
 			g.popTransform();
 		}
 	}
-	
+
 	private boolean toggled;
-	
+
 	public void update(GameContainer container) {
 		if(!paused) {
 			for(Entity e : entities)
 				e.update(container);
 		}
-		
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !toggled) {
 			togglePaused();
 			toggled = true;
@@ -84,27 +84,27 @@ public class Level {
 			toggled = false;
 		}
 	}
-	
+
 	public void load(String level) {
 	    try {	    	
 	    	Builder parser = new Builder();
 			Document d = parser.build(level);
 			Element e = d.getRootElement();
-				
+
 			width = parseInt(e, "width");
 			height = parseInt(e, "height");
 			entitiesTotal = parseInt(e, "entities");
 			tilesTotal = parseInt(e, "tiles");
-						
+
 			tiles = new Tile[getWidth() * getHeight()];
-			
+
 			parseElements(e);
 			ready();
 	    } catch (Exception ex) {
 	    	ex.printStackTrace();
 	    }
 	}
-	
+
 	private void parseElements(Element element) {
 		switch(element.getLocalName()) {
 			case "tile":				
@@ -113,7 +113,7 @@ public class Level {
 				int z = parseInt(element, "z");
 				int width = parseInt(element, "width");
 				int height = parseInt(element, "height");
-				
+
 				if(width > 1 || height > 1) {
 					for(int entX = x; entX < x + width; entX++) {
 						for(int entY = y; entY < y + height; entY++) {
@@ -124,7 +124,7 @@ public class Level {
 				else {
 					tiles[x * y * this.width] = new Background(x, y, z);
 				}
-				
+
 				tilesProcessed++;
 				break;
 			case "entity":				
@@ -140,11 +140,11 @@ public class Level {
 						}
 						break;
 				}
-				
+
 				entitiesProcessed++;
 				break;
 		}
-		
+
 		for (int i = 0; i < element.getChildCount(); i++) {
 			Node node = element.getChild(i);
 			if (node instanceof Element) {
@@ -152,17 +152,17 @@ public class Level {
 			}
 		}
 	}
-		
+
 	private int parseInt(Element element, String attribute) {
 		try {
 			return Integer.parseInt(element.getAttribute(attribute).getValue());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0;
 	}
-	
+
 //	private boolean parseBoolean(Element element, String attribute) {
 //		try {
 //			if(element.getAttribute(attribute).getValue() == "true")
@@ -173,28 +173,28 @@ public class Level {
 //		
 //		return false;
 //	}
-	
+
 	public void togglePaused() {
 		paused = !paused;
-		
+
 		if(paused)
 			Board.menuStack.add(new PauseMenu());
 		else
 			Board.menuStack.pop();
 	}
-	
+
 	public double getProgress() {
 		return (entitiesProcessed + tilesProcessed) / (entitiesTotal + tilesTotal);
 	}
-	
+
 	public void ready() {
 		//Overridden
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}
