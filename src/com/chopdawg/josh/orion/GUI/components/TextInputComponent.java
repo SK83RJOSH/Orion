@@ -56,16 +56,19 @@ public class TextInputComponent extends Component {
 		tick++;
 		tick = tick % 60;
 		
-		if(Keyboard.getEventKeyState() && lastchar != Keyboard.getEventCharacter() || Keyboard.isRepeatEvent() && isSelected) {
+		if(Keyboard.getEventKeyState() && lastchar != Keyboard.getEventCharacter() && isSelected || Keyboard.isRepeatEvent() && isSelected) {
 			if(Keyboard.getEventCharacter() != 0 && Keyboard.getEventKey() != Keyboard.KEY_BACK && Keyboard.getEventKey() != Keyboard.KEY_RETURN) {
 				content += (Keyboard.getEventCharacter());
 			} else {
-				if(Keyboard.getEventKey() == Keyboard.KEY_BACK && content.length() > 0) {
-					content = content.substring(0, content.length() - 1);
-				} else if(Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-					isSelected = false;
-				}
-					
+				switch(Keyboard.getEventKey()) {
+					case Keyboard.KEY_BACK:
+						if(content.length() > 0)
+							content = content.substring(0, content.length() - 1);
+						break;
+					case Keyboard.KEY_RETURN:
+						isSelected = false;
+						break;
+				}	
 			}
 
 			lastchar = Keyboard.getEventCharacter();
