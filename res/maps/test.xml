@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<test width="100" height="20" entities="1" tiles="2000" backdrop="0">
-	<entity type="player_spawn" x="0" y="9" z="0" />
-	<tile type="test" x="0" y="0" z="0" width="100" height="10" />
-	<tile type="solid" x="0" y="10" z="0" width="100" height="10" />
-</test>

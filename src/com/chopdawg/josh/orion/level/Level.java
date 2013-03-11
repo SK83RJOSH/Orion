@@ -88,7 +88,7 @@ public class Level {
 	public void load(String level) {
 	    try {	    	
 	    	Builder parser = new Builder();
-			Document d = parser.build(level);
+			Document d = parser.build(Level.class.getResourceAsStream(level));
 			Element e = d.getRootElement();
 
 			width = parseInt(e, "width");
