@@ -29,5 +29,6 @@ public class OptionsMenu extends Menu {
 					});
 		
 		addComponent(new TextInputComponent("I AM ERROR", "", -1, 300));
+		addComponent(new TextInputComponent("I AM PASSWORD", "", -1, 335, true));
 	}
 }
