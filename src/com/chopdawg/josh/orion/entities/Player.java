@@ -5,6 +5,10 @@ import org.newdawn.slick.GameContainer;
 
 import com.chopdawg.josh.orion.sprites.GameSprites;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class Player extends Entity {	
 	public Player(int x, int y) {
 		set(x, y, 0);

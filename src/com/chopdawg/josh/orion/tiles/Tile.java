@@ -7,6 +7,10 @@ import org.newdawn.slick.Image;
 
 import com.chopdawg.josh.orion.bb.IBounding;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public abstract class Tile implements IBounding {
 	public final static int TILE_WIDTH = 32; 
 	public final static int TILE_HEIGHT = 32;

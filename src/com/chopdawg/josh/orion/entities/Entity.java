@@ -9,6 +9,10 @@ import org.newdawn.slick.SpriteSheet;
 
 import com.chopdawg.josh.orion.bb.IBounding;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public abstract class Entity implements IBounding {
 	private Vector3f position = new Vector3f(), velocity = new Vector3f();
 	private Dimension dimensions = new Dimension();

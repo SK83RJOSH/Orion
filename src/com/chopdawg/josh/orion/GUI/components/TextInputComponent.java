@@ -91,7 +91,7 @@ public class TextInputComponent extends Component {
 		}
 	}
 	
-	public String getContent() {
+	public String getValue() {
 		return content;
 	}
 }

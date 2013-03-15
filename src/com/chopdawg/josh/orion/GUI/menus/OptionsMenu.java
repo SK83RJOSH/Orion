@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.components.ButtonComponent;
+import com.chopdawg.josh.orion.GUI.components.CheckBoxComponent;
 import com.chopdawg.josh.orion.GUI.components.TextInputComponent;
 import com.chopdawg.josh.orion.GUI.components.TileComponent;
 
@@ -28,6 +29,13 @@ public class OptionsMenu extends Menu {
 						}
 					});
 		
+		//Testing basic Check Boxes, and Radio Buttons
+		addComponent(new CheckBoxComponent(false, false, -1, 265));
+		addComponent(new CheckBoxComponent(true, false, -1, 230));
+		addComponent(new CheckBoxComponent(false, true, -1, 195));
+		addComponent(new CheckBoxComponent(true, true, -1, 160));
+		
+		//Testing Inputs, and Masking
 		addComponent(new TextInputComponent("I AM ERROR", "", -1, 300));
 		addComponent(new TextInputComponent("I AM PASSWORD", "", -1, 335, true));
 	}

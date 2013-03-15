@@ -18,6 +18,10 @@ import com.chopdawg.josh.orion.tiles.Solid;
 import com.chopdawg.josh.orion.tiles.Tile;
 import com.chopdawg.josh.orion.utils.RenderedList;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public class Level {
 	public boolean paused, loading, editing;
 	public double progress;

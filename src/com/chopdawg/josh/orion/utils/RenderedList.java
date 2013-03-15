@@ -6,6 +6,10 @@ import java.util.Collections;
 
 import com.chopdawg.josh.orion.bb.IBounding;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 @SuppressWarnings("hiding")
 public class RenderedList<IBounding> extends AbstractList<IBounding> {
     private ArrayList<IBounding> internalList = new ArrayList<IBounding>();

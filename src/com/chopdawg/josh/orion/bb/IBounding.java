@@ -1,5 +1,9 @@
 package com.chopdawg.josh.orion.bb;
 
+/**
+ * 
+ * @author SK83RJOSH
+ */
 public interface IBounding {
 	public void makeSolid();
 	public boolean isSolid();
