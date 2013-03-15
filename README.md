@@ -1,10 +1,15 @@
 Orion
 =====
 
-Port of Orion to Slick2D
+Port of [Orion](http://sk83rsplace.com/Orion/orion.jar "Orion Prototype") to Slick2D
+
+Development
+-------
+Though I do welcome anyone to hop in and improve this source code, please follow the standards of the rest of the source!
+Feel free to improve anything that may seem counter-intuitive, or just help finalize classes, just remember to credit yourself via @author.
 
 TODO
-=====
+-------
 
 1. Implement Labels that base their position on a target component.
 2. Added initialization method on all components, for use of labels and etc.
