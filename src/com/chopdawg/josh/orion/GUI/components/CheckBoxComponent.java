@@ -61,6 +61,10 @@ public class CheckBoxComponent extends Component implements IValuedBoolean {
 		return isChecked;
 	}
 	
+	public void setValue(boolean isChecked) {
+		this.isChecked = isChecked;
+	}
+	
 	public void onValueChange() {
 		System.out.println("Value changed, defaulted action.");
 	}

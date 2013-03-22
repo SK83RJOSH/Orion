@@ -6,6 +6,7 @@ import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.components.ButtonComponent;
 import com.chopdawg.josh.orion.GUI.components.ImageComponent;
+import com.chopdawg.josh.orion.GUI.components.TextComponent;
 import com.chopdawg.josh.orion.GUI.components.TileComponent;
 
 /**
@@ -47,5 +48,8 @@ public class StartMenu extends Menu {
 							System.exit(0);
 						}
 					});
+		
+		//Test of the Text Component
+		addComponent(new TextComponent("Ver.  0.0.6;  Dev-Build", Color.yellow, 6, Board.getHeight() - 18));
 	}
 }

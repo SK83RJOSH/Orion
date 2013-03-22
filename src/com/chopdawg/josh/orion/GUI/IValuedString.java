@@ -6,5 +6,6 @@ package com.chopdawg.josh.orion.GUI;
  */
 public interface IValuedString {
 	public void onValueChange();
+	public void setValue(String content);
 	public String getValue();
 }

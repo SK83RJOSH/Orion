@@ -103,6 +103,10 @@ public class TextInputComponent extends Component implements IValuedString {
 		return content;
 	}
 	
+	public void setValue(String content) {
+		this.content = content;
+	}
+	
 	public void onValueChange() {
 		System.out.println("Value changed, defaulted action.");
 	}
