@@ -11,7 +11,7 @@ Feel free to improve anything that may seem counter-intuitive, or just help fina
 TODO
 -------
 
-1. Implement Labels that base their position on a target component.
+1. --DONE-- Implement Labels that base their position on a target component. --DONE--
 2. Added initialization method on all components, for use of labels and etc.
 3. Implement extension of Menu, that generates tile maps on the go.
 4. Write Camera class to handle zoom, shake, panning and other various actions.
