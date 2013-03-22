@@ -8,12 +8,13 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Component;
+import com.chopdawg.josh.orion.GUI.IValuedBoolean;
 
 /**
  * 
  * @author SK83RJOSH
  */
-public class CheckBoxComponent extends Component {
+public class CheckBoxComponent extends Component implements IValuedBoolean {
 	private boolean isChecked;
 	private boolean isRadial;
 	
@@ -50,11 +51,17 @@ public class CheckBoxComponent extends Component {
 	public void update(GameContainer container) {
 		super.update(container);
 		
-		if(isActive() && Board.mouseButtons.wasReleased(0))
+		if(isActive() && Board.mouseButtons.wasReleased(0)) {
 			isChecked = !isChecked;
+			onValueChange();
+		}
 	}
 	
 	public boolean getValue() {
 		return isChecked;
+	}
+	
+	public void onValueChange() {
+		System.out.println("Value changed, defaulted action.");
 	}
 }

@@ -8,8 +8,13 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Component;
+import com.chopdawg.josh.orion.GUI.IValuedString;
 
-public class TextInputComponent extends Component {
+/**
+ * 
+ * @author SK83RJOSH
+ */
+public class TextInputComponent extends Component implements IValuedString {
 	private String placeholder = "", content = "";
 	private boolean isSelected, password;
 	private int tick;
@@ -73,11 +78,14 @@ public class TextInputComponent extends Component {
 		if(Keyboard.getEventKeyState() && lastchar != Keyboard.getEventCharacter() && isSelected || Keyboard.isRepeatEvent() && isSelected) {
 			if(Keyboard.getEventCharacter() != 0 && Keyboard.getEventKey() != Keyboard.KEY_BACK && Keyboard.getEventKey() != Keyboard.KEY_RETURN) {
 				content += (Keyboard.getEventCharacter());
+				onValueChange();
 			} else {
 				switch(Keyboard.getEventKey()) {
 					case Keyboard.KEY_BACK:
-						if(content.length() > 0)
-							content = content.substring(0, content.length() - 1);
+						if(content.length() > 0) {
+							content = content.substring(0, content.length() - 1);	
+							onValueChange();
+						}
 						break;
 					case Keyboard.KEY_RETURN:
 						isSelected = false;
@@ -93,5 +101,9 @@ public class TextInputComponent extends Component {
 	
 	public String getValue() {
 		return content;
+	}
+	
+	public void onValueChange() {
+		System.out.println("Value changed, defaulted action.");
 	}
 }
