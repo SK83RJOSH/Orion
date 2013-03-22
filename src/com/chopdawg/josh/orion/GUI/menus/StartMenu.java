@@ -1,6 +1,7 @@
 package com.chopdawg.josh.orion.GUI.menus;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 
 import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.Menu;
@@ -50,6 +51,25 @@ public class StartMenu extends Menu {
 					});
 		
 		//Test of the Text Component
-		addComponent(new TextComponent("Ver.  0.0.6;  Dev-Build", Color.yellow, 6, Board.getHeight() - 18));
+		addComponent(new TextComponent("Ver.  0.0.6b;  Dev-Build", Color.yellow, 6, Board.getHeight() - 18) {
+			private boolean toggled;
+			private int tick;
+			
+			public void update(GameContainer container) {
+				super.update(container);
+				
+				if(tick == 30) {
+					if(toggled)
+						set(getX() - 2, getY() + 2);
+					else
+						set(getX() + 2, getY() - 2);
+					
+					toggled = !toggled;
+				}
+				
+				tick++;
+				tick = tick % 60;
+			}
+		});
 	}
 }

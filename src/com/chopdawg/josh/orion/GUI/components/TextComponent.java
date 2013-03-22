@@ -47,7 +47,7 @@ public class TextComponent extends Component implements IValuedString {
 
 	public void setValue(String content) {
 		this.content = content;
-		intialized = false;
+		onValueChange();
 	}
 
 	public String getValue() {
