@@ -1,6 +1,6 @@
 package com.chopdawg.josh.orion.GUI;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -14,7 +14,7 @@ import com.chopdawg.josh.orion.Board;
  * @author SK83RJOSH
  */
 public abstract class Menu implements IRenderable  {
-	protected ArrayList<Component> components = new ArrayList<Component>();
+	protected CopyOnWriteArrayList<Component> components = new CopyOnWriteArrayList<Component>();
 	private Color color = new Color(255, 0, 255);
 	
 	public void render(GameContainer container, Graphics g) {

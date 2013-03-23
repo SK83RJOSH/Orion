@@ -12,8 +12,8 @@ TODO
 -------
 
 1. --DONE-- Implement Labels that base their position on a target component. --DONE--
-2. Added initialization method on all components, for use of labels and etc.
-3. Implement extension of Menu, that generates tile maps on the go.
+2. --DONE-- Added initialization method on all components, for use of labels and etc. --DONE--
+3. --Cancelled-- Implement extension of Menu, that generates tile maps on the go. --Cancelled--
 4. Write Camera class to handle zoom, shake, panning and other various actions.
 5. Flesh out Level loader, and push to own class.
 6. Finalize TILE_TYPE, and ensure that it's used in Level loader.

@@ -16,7 +16,7 @@ public abstract class Tile implements IBounding {
 	public final static int TILE_HEIGHT = 32;
 	public final static String[] TILE_TYPES = new String[]{"Background", "Solid"};
 	public int TILE_TYPE = -1;
-	private Image sprite;
+	public Image sprite;
 	private Vector3f position = new Vector3f();
 	private boolean solid;
 	

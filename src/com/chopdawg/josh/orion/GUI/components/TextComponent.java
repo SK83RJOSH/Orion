@@ -15,7 +15,6 @@ import com.chopdawg.josh.orion.GUI.IValuedString;
 public class TextComponent extends Component implements IValuedString {
 	private String content = "";
 	private Color textColor = Color.white;
-	private boolean intialized = false;
 	
 	public TextComponent(String content, Color textColor, int x, int y) {
 		this.content = content;
@@ -30,15 +29,9 @@ public class TextComponent extends Component implements IValuedString {
 		g.setColor(textColor);
 		g.drawString(content, getX(), getY());
 	}
-	
-	public void update(GameContainer container) {
-		super.update(container);
-		
-		if(!intialized) {
-			setSize(container.getDefaultFont().getWidth(content), container.getDefaultFont().getHeight(content));
-			
-			intialized = true;
-		}
+
+	public void onInitialization(GameContainer container) {
+		setSize(container.getDefaultFont().getWidth(content), container.getDefaultFont().getHeight(content));
 	}
 
 	public void onValueChange() {

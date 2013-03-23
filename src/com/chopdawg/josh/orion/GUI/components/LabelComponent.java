@@ -12,7 +12,6 @@ import com.chopdawg.josh.orion.GUI.Component;
  */
 public class LabelComponent extends TextComponent {
 	private Component parent;
-	private boolean intialized = false;
 	
 	public LabelComponent(String content, Component parent) {
 		super(content + ": ", Color.white, -100, -100);
@@ -26,16 +25,10 @@ public class LabelComponent extends TextComponent {
 		g.setColor(Color.white);
 		g.drawString(getValue(), getX(), getY());
 	}
-	
-	public void update(GameContainer container) {
-		super.update(container);
-		
-		if(!intialized) {
-			setSize(container.getDefaultFont().getWidth(getValue()), container.getDefaultFont().getHeight(getValue()));
-			set(parent.getX() - getWidth(), parent.getY() + (parent.getHeight() / 2) - (getHeight() / 2));
-			
-			intialized = true;
-		}
+
+	public void onInitialization(GameContainer container) {
+		setSize(container.getDefaultFont().getWidth(getValue()), container.getDefaultFont().getHeight(getValue()));
+		set(parent.getX() - getWidth(), parent.getY() + (parent.getHeight() / 2) - (getHeight() / 2));
 	}
 	
 	public void setValue(String content) {
@@ -43,6 +36,6 @@ public class LabelComponent extends TextComponent {
 	}
 	
 	public void onValueChange() {
-		intialized = false;
+		reInitialize();
 	}
 }

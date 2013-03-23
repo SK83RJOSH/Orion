@@ -15,6 +15,7 @@ public abstract class Component implements IRenderable {
 	private Vector2f pos;
 	private Dimension dim;
 	private boolean active;
+	private boolean initialized;
 	
 	public Component() {
 		dim = new Dimension();
@@ -26,6 +27,11 @@ public abstract class Component implements IRenderable {
 			active = true;
 		} else {
 			active = false;
+		}
+		
+		if(!initialized) {
+			onInitialization(container);
+			initialized = true;
 		}
 	}
 	
@@ -57,5 +63,12 @@ public abstract class Component implements IRenderable {
 	
 	public boolean isActive() {
 		return active;
+	}
+	
+	public void onInitialization(GameContainer container) {		System.out.println("Default Intialization.");
+	}
+	
+	public void reInitialize() {
+		initialized = false;
 	}
 }
