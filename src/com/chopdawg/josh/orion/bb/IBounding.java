@@ -13,5 +13,4 @@ public interface IBounding {
 	public float getZ();
 	public int getWidth();
 	public int getHeight();
-	public boolean collides(IBounding bounding);
 }

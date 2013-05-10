@@ -1,10 +1,15 @@
 package com.chopdawg.josh.orion.level;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.World;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,8 +18,6 @@ import com.chopdawg.josh.orion.Board;
 import com.chopdawg.josh.orion.GUI.menus.PauseMenu;
 import com.chopdawg.josh.orion.entities.Entity;
 import com.chopdawg.josh.orion.entities.Player;
-import com.chopdawg.josh.orion.tiles.Background;
-import com.chopdawg.josh.orion.tiles.Solid;
 import com.chopdawg.josh.orion.tiles.Tile;
 import com.chopdawg.josh.orion.utils.RenderedList;
 
@@ -26,11 +29,12 @@ public class Level {
 	public boolean paused, loading, editing;
 	public double progress;
 	private int width, height;
+	public static World world = new World(new Vec2(0f, 120f));
 	public String level;
 	public Player player;
 	private int entitiesTotal, entitiesProcessed, tilesTotal, tilesProcessed;
 	RenderedList<Entity> entities = new RenderedList<Entity>();
-	Tile[] tiles;
+	public Tile[] tiles;
 
 	public Level(String level) {
 		this.level = level;
@@ -42,7 +46,7 @@ public class Level {
 
 	public void render(GameContainer container, Graphics g) {		
 		if(player != null) {
-			nextZoom = 2f - ((Math.abs(player.getVelX()) + Math.abs(player.getVelY())));
+			nextZoom = 2f - ((Math.abs(((Player) player).body.getLinearVelocity().x / 25f) + Math.abs(((Player) player).body.getLinearVelocity().y / 25f)));
 			nextZoom = (nextZoom < 1f ? 1f : nextZoom);
 			nextZoom = Math.round(nextZoom * 100f) / 100f;  
 
@@ -67,7 +71,33 @@ public class Level {
 
 		for(Entity e : entities)
 			e.render(container, g);
+				
+		if(player != null) {
+			g.popTransform();
+		}
+		
+		if(player != null) {
+			nextZoom = 2f - ((Math.abs(((Player) player).body.getLinearVelocity().x / 25f) + Math.abs(((Player) player).body.getLinearVelocity().y / 25f)));
+			nextZoom = (nextZoom < 1f ? 1f : nextZoom);
+			nextZoom = Math.round(nextZoom * 100f) / 100f;  
 
+			currentZoom = Math.round(currentZoom * 100f) / 100f;
+
+			if(currentZoom != nextZoom) {
+				if(currentZoom > nextZoom)
+					currentZoom -= 0.02f;
+				else
+					currentZoom += 0.03f;				
+			}
+
+			g.pushTransform();
+				g.scale(currentZoom, currentZoom);
+				g.translate(-256 - 48 -player.getX() + (((Board.getWidth() / 2) - (16 * currentZoom)) / currentZoom), -16 + (8.5f) * 32 + -player.getY() + (((Board.getHeight() / 2) - (16 * currentZoom)) / currentZoom));
+				g.rotate(0, 0, 180);
+		}
+		
+		//world.drawDebugData();
+		
 		if(player != null) {
 			g.popTransform();
 		}
@@ -75,7 +105,11 @@ public class Level {
 
 	private boolean toggled;
 
-	public void update(GameContainer container) {
+	boolean ready = false;
+	
+	public void update(GameContainer container, int delta) {		
+		world.step(1.0f / container.getFPS(), 6, 2);
+		
 		if(!paused) {
 			for(Entity e : entities)
 				e.update(container);
@@ -86,7 +120,7 @@ public class Level {
 			toggled = true;
 		} else if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			toggled = false;
-		}
+		}	
 	}
 
 	public void load(String level) {
@@ -121,19 +155,19 @@ public class Level {
 				if(width > 1 || height > 1) {
 					for(int entX = x; entX < x + width; entX++) {
 						for(int entY = y; entY < y + height; entY++) {
-							tiles[entX + entY * getWidth()] =  (element.getAttribute("type").getValue().equals("test") ? new Background(entX, entY, z) : new Solid(entX, entY, z));
+							tiles[entX + entY * getWidth()] = parseTile(element, entX, entY, z);
 						}
 					}
 				}
 				else {
-					tiles[x * y * this.width] = new Background(x, y, z);
+					tiles[x * y * this.width] = parseTile(element, x, y, z);
 				}
 
 				tilesProcessed++;
 				break;
 			case "entity":				
 				switch(element.getAttribute("type").getValue()) {
-					case "player_spawn":
+					case "Player":
 						if(player == null) {
 							x = parseInt(element, "x") * Tile.TILE_WIDTH;
 							y = parseInt(element, "y") * Tile.TILE_HEIGHT;
@@ -177,6 +211,31 @@ public class Level {
 //		
 //		return false;
 //	}
+	
+	private Tile parseTile(Element element, int x, int y, int z) {
+		String tileType = element.getAttributeValue("type");
+		boolean validTileType = false;
+		
+		for(int currentTileType = 0; currentTileType < Tile.TILE_TYPES.length; currentTileType++)
+			if(Tile.TILE_TYPES[currentTileType].equals(tileType))
+				validTileType = true;
+		
+		if(validTileType) {
+			Class<?> reflection;
+			
+			try {
+				reflection = Class.forName("com.chopdawg.josh.orion.tiles." + tileType);
+				Constructor<?> constructor = reflection.getConstructor(float.class, float.class, float.class);
+				Tile tile = (Tile) constructor.newInstance(x, y, z);
+				
+				return tile;
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
 
 	public void togglePaused() {
 		paused = !paused;

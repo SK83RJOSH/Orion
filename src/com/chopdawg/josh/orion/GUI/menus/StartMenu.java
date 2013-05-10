@@ -51,7 +51,7 @@ public class StartMenu extends Menu {
 					});
 		
 		//Test of the Text Component
-		addComponent(new TextComponent("Ver.  0.0.7;  Dev-Build", Color.yellow, 6, Board.getHeight() - 18) {
+		addComponent(new TextComponent("Ver.  0.0.8;  Dev-Build", Color.yellow, 6, Board.getHeight() - 18) {
 			private boolean toggled;
 			private int tick;
 			

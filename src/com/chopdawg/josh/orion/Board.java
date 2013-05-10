@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.io.InputStream;
 import java.util.Stack;
 
+import org.jbox2d.callbacks.DebugDraw;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -18,6 +19,7 @@ import com.chopdawg.josh.orion.GUI.Menu;
 import com.chopdawg.josh.orion.GUI.menus.SplashScreen;
 import com.chopdawg.josh.orion.GUI.menus.StartMenu;
 import com.chopdawg.josh.orion.level.Level;
+import com.chopdawg.josh.orion.level.Slick2DJBox2DDebugDraw;
 
 /**
  * 
@@ -63,7 +65,11 @@ public class Board extends BasicGame {
     		container.setDefaultFont(new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(16f), false));
     	} catch (Exception e) {
     		e.printStackTrace();
-    	}    	
+    	}
+    	
+		Slick2DJBox2DDebugDraw debugDraw = new Slick2DJBox2DDebugDraw(container);
+		debugDraw.setFlags(DebugDraw.e_shapeBit);
+		Level.world.setDebugDraw(debugDraw); // Where world is your JBox2D world
 	}
 
 	public void update(GameContainer container, int delta) throws SlickException {
@@ -81,7 +87,7 @@ public class Board extends BasicGame {
         mouseButtons.update();
 	
         if(level != null)
-        	level.update(container);
+        	level.update(container, delta);
 	}
 	
 	public static int getWidth() {

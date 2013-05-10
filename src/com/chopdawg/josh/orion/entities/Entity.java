@@ -14,16 +14,17 @@ import com.chopdawg.josh.orion.bb.IBounding;
  * @author SK83RJOSH
  */
 public abstract class Entity implements IBounding {
-	private Vector3f position = new Vector3f(), velocity = new Vector3f();
+	private Vector3f position = new Vector3f();
 	private Dimension dimensions = new Dimension();
 	private Image sprite;
 	private SpriteSheet spriteSheet;
-	private int animation, frame, tick, rotation;
+	private int animation, frame, tick;
+	protected int rotation;
 	private boolean scaled, animated, paused, solid;
 
 	public void render(GameContainer container, Graphics g) {
 		g.pushTransform();
-			g.rotate(getX(), getY(), rotation);
+			g.rotate(getX() + (getWidth() / 2), getY() + (getHeight() / 2), rotation);
 			if(scaled) {
 				g.scale(getZ(), getZ());
 				g.drawImage(sprite, getX() / getZ(), getY() / getZ());
@@ -43,13 +44,6 @@ public abstract class Entity implements IBounding {
 				tick++;
 			}
 		}
-		
-		set(getX() + getVelX(), getY() + getVelY(), getZ() + getVelZ());
-		
-//		if((Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) >= getX() && (Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) <= getX() + 2 * getWidth())
-//			System.out.println("ASD");
-//		else
-//			System.out.println("Mouse: " + (Mouse.getX() - (Board.getWidth() / 2) + getX() + getWidth()) + " & " + Mouse.getY() + " Me: " + getX() + " & " + getY());
 	}
 
 	public void makeSolid() {
@@ -86,22 +80,6 @@ public abstract class Entity implements IBounding {
 	
 	public float getZ() {
 		return position.z;
-	}
-	
-	public void setVel(float x, float y, float z) {
-		velocity.set(x, y, z);
-	}
-	
-	public float getVelX() {
-		return velocity.x;
-	}
-	
-	public float getVelY() {
-		return velocity.y;
-	}
-	
-	public float getVelZ() {
-		return velocity.z;
 	}
 	
 	public void setSprite(Image sprite) {
@@ -151,12 +129,5 @@ public abstract class Entity implements IBounding {
 	
 	public int getRotation() {
 		return rotation;
-	}
-	
-	public boolean collides(IBounding bb) {
-		if(bb.getX() >= getX() && bb.getY() >= getY() && bb.getX() + bb.getWidth() <= getX() + getWidth() && bb.getY() + bb.getHeight() <= getY() + getHeight() && bb.getZ() == getZ() && bb.isSolid() && isSolid())
-			return true;
-		
-		return false;
 	}
 }
